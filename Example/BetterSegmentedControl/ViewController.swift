@@ -70,6 +70,30 @@ class ViewController: UIViewController {
         viewSegmentedControl.bouncesOnChange = false
         viewSegmentedControl.panningDisabled = true
         view.addSubview(viewSegmentedControl)
+
+        // Control 5: With icons
+        let iconSegmentedControl = BetterSegmentedControl(
+            frame: CGRect(x: 15, y: 370, width: view.bounds.width - 30, height: 44),
+            titles: ["One", "Two", "Three"],
+            index: 0,
+            backgroundColor: .lightGrayColor(),
+            titleColor: .darkTextColor(),
+            indicatorViewBackgroundColor: .blueColor(),
+            selectedTitleColor: .whiteColor())
+        iconSegmentedControl.cornerRadius = 22
+        iconSegmentedControl.titleFont = UIFont.systemFontOfSize(15)
+
+        let icon1 = UIImage(named: "icon1-black")
+        let selectedIcon1 = UIImage(named: "icon1-white")
+        let icon2 = UIImage(named: "icon2-black")
+        let selectedIcon2 = UIImage(named: "icon2-white")
+        let icon3 = UIImage(named: "icon3-black")
+        let selectedIcon3 = UIImage(named: "icon3-white")
+        iconSegmentedControl.setTitle("One", image: icon1, selectedImage: selectedIcon1, forSegmentAtIndex: 0)
+        iconSegmentedControl.setTitle("Two", image: icon2, selectedImage: selectedIcon2, forSegmentAtIndex: 1)
+        iconSegmentedControl.setTitle("Three", image: icon3, selectedImage: selectedIcon3, forSegmentAtIndex: 2)
+
+        view.addSubview(iconSegmentedControl)
     }
     
     // MARK: - Action handlers
