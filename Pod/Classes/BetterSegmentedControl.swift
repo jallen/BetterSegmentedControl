@@ -131,6 +131,62 @@ struct DefaultColors {
             }
         }
     }
+
+    // MARK: - Public functions
+    // Add an image and selectedImage to a title for given segment index
+    public func setTitle(title: String, image: UIImage?, selectedImage: UIImage?, forSegmentAtIndex segment: Int) {
+        let index = max(min(segment, titleLabelsCount - 1), 0)
+
+        if titleLabelsCount != 0 {
+            titleLabelsView.subviews[index].removeFromSuperview()
+            selectedTitleLabelsView.subviews[index].removeFromSuperview()
+        }
+
+        let attachment = NSTextAttachment()
+        attachment.image = image
+
+        if let imageSize = image?.size {
+            let yOffset = (titleFont.ascender - imageSize.height) * 0.5
+            attachment.bounds = CGRect(x: 0, y: yOffset - 1, width: imageSize.width, height: imageSize.height)
+        }
+
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let attributatedString = NSAttributedString(string: " \(title)")
+        let titleString = NSMutableAttributedString(attributedString: attachmentString)
+        titleString.appendAttributedString(attributatedString)
+
+        let selectedAttachment = NSTextAttachment()
+        selectedAttachment.image = selectedImage
+
+        if let imageSize = selectedImage?.size {
+            let yOffset = (titleFont.ascender - imageSize.height) * 0.5
+            selectedAttachment.bounds = CGRect(x: 0, y: yOffset - 1, width: imageSize.width, height: imageSize.height)
+        }
+
+        let selectedAttachmentString = NSAttributedString(attachment: selectedAttachment)
+        let selectedAttributedString = NSAttributedString(string: " \(title)")
+        let selectedString = NSMutableAttributedString(attributedString: selectedAttachmentString)
+        selectedString.appendAttributedString(selectedAttributedString)
+
+        let titleLabel = UILabel()
+        titleLabel.textColor = titleColor
+        titleLabel.attributedText = titleString
+        titleLabel.lineBreakMode = .ByTruncatingTail
+        titleLabel.textAlignment = .Center
+        titleLabel.font = titleFont
+
+        let selectedTitleLabel = UILabel()
+        selectedTitleLabel.textColor = selectedTitleColor
+        selectedTitleLabel.attributedText = selectedString
+        selectedTitleLabel.lineBreakMode = .ByTruncatingTail
+        selectedTitleLabel.textAlignment = .Center
+        selectedTitleLabel.font = titleFont
+
+        titleLabelsView.insertSubview(titleLabel, atIndex: index)
+        selectedTitleLabelsView.insertSubview(selectedTitleLabel, atIndex: index)
+        
+        setNeedsLayout()
+    }
     
     // MARK: - Private properties
     private let titleLabelsView = UIView()
